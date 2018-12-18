@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ZhihuDailyKotlin</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">allsunny</string>
+    <string name="nav_header_subtitle">623368886@qq.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">设置选项</string>
+    <string name="action_change_style">更换背景</string>
+</resources>

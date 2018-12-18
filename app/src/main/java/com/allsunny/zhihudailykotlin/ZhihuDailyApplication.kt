@@ -37,10 +37,6 @@ class ZhihuDailyApplication : Application() {
         context = applicationContext
         refWatcher = setupLeakCanary()
         initConfig()
-//        DisplayManager.init(this)
-//        registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
-
-
     }
 
     private fun setupLeakCanary(): RefWatcher {

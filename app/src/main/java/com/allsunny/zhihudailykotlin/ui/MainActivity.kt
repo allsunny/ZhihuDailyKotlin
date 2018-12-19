@@ -1,12 +1,13 @@
 package com.allsunny.zhihudailykotlin.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.allsunny.zhihudailykotlin.R
 import com.allsunny.zhihudailykotlin.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,6 +30,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        val view = nav_view.getHeaderView(0)
+        val intent = Intent(this, AboutActivity::class.java)
+        view.findViewById<View>(R.id.constraintLayout).setOnClickListener {
+            startActivity(intent)
+            drawer_layout.closeDrawer(GravityCompat.START)
+        }
     }
 
     override fun initData() {

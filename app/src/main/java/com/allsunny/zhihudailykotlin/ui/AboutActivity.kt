@@ -1,5 +1,8 @@
 package com.allsunny.zhihudailykotlin.ui
 
+import com.allsunny.zhihudailykotlin.R
+import kotlinx.android.synthetic.main.app_bar_main.*
+
 /**
  * Author: allsunny
  * Created on 2018/12/18 14:58
@@ -8,16 +11,20 @@ package com.allsunny.zhihudailykotlin.ui
  */
 
 class AboutActivity : BaseActivity() {
-    override fun initData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
 
     override fun initView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { finish() }
+
+    }
+
+    override fun initData() {
     }
 
     override fun layoutId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return R.layout.activity_about
     }
 
 

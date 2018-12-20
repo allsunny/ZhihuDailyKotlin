@@ -1,6 +1,7 @@
 package com.allsunny.zhihudailykotlin.api
 
 import com.allsunny.zhihudailykotlin.bean.NewsBean
+import com.allsunny.zhihudailykotlin.bean.NewsDetailBean
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -19,5 +20,11 @@ interface ApiService {
     @GET("news/latest")
     fun getNewsData(): Observable<NewsBean>
 
+
+    @GET("news/before/{date}")
+    fun getBeforeNews(@Query("date") date: String): Observable<NewsBean>
+
+    @GET("news/{id}")
+    fun getNewsDetail(@Query("id") id: Int): Observable<NewsDetailBean>
 
 }

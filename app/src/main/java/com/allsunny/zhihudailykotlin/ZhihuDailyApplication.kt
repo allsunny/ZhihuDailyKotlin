@@ -18,7 +18,7 @@ import kotlin.properties.Delegates
 
 class ZhihuDailyApplication : Application() {
     private var refWatcher: RefWatcher? = null
-    private val TAG = "allsunny"
+    private val TAG = "daily-logger"
 
     companion object {
 

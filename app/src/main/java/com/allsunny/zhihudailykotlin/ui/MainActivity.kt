@@ -1,19 +1,39 @@
 package com.allsunny.zhihudailykotlin.ui
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.allsunny.zhihudailykotlin.R
+import com.allsunny.zhihudailykotlin.bean.Story
+import com.allsunny.zhihudailykotlin.http.RetrofitManager
 import com.allsunny.zhihudailykotlin.utils.ToastUtil
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
+import com.orhanobut.logger.Logger
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import android.widget.Toast
+
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private var newsListAdapter: BaseQuickAdapter<Story, BaseViewHolder>? = null
+    private var newsListData: List<Story>? = null
+
+    private val linearLayoutManager by lazy {
+        LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
+
     override fun layoutId(): Int {
         return R.layout.activity_main
     }
@@ -39,6 +59,40 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun initData() {
+
+        newsListAdapter = object : BaseQuickAdapter<Story, BaseViewHolder>(R.layout.item_story, newsListData) {
+            override fun convert(helper: BaseViewHolder?, item: Story?) {
+                helper!!.setText(R.id.tv_title, item!!.title)
+
+                Glide.with(mContext)
+                    .load(item.images[0])
+                    .error(R.mipmap.ic_launcher)           //设置错误图片
+                    .placeholder(R.mipmap.ic_launcher)     //设置占位图片
+                    .dontAnimate()                           //解决Glide加载图片的变形问题
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT) //缓存
+                    .into(helper.getView(R.id.iv_story))
+
+                helper.addOnClickListener(R.id.cv_item)
+
+                helper.setOnClickListener(R.id.cv_item, View.OnClickListener {
+                    ToastUtil.showToast(item!!.title)
+                })
+
+            }
+        }
+
+        rv_data.layoutManager = linearLayoutManager
+        rv_data.adapter = newsListAdapter
+
+        RetrofitManager.service.getNewsData()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ newsBean ->
+                newsListData = newsBean.stories
+                newsListAdapter!!.setNewData(newsListData)
+            }, { throwable ->
+                Logger.e(throwable.toString())
+            })
     }
 
     override fun onBackPressed() {

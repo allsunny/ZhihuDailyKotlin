@@ -1,6 +1,7 @@
 package com.allsunny.zhihudailykotlin.ui
 
 import com.allsunny.zhihudailykotlin.R
+import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 /**
@@ -17,7 +18,7 @@ class AboutActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
-
+        collapsing_toolbar.title = "关于"
     }
 
     override fun initData() {

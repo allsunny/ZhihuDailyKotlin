@@ -12,8 +12,59 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    
+    <style name="MyDayTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">#673AB7</item>
+        <item name="colorPrimaryDark">#512DA8</item>
+        <item name="colorAccent">#FF4081</item>
+    </style>
+    
+    <!--日间主题-->
+    <style name="DayTheme" parent="AppTheme.NoActionBar">
+        <item name="myTheme">day</item>
+        <item name="toolbar_Menu_Text_Color">@color/toolbar_Menu_Text_Color_Day</item>
+        <item name="toolbar_Text_Color">@color/toolbar_Text_Color_Day</item>
+        <!--页面背景-->
+        <item name="android:windowBackground">@color/background_Day</item>
+        <!--主页item背景色-->
+        <item name="main_item_background">@color/main_item_background_Day</item>
+        <!--三种文字颜色-->
+        <item name="textColorFirst">@color/textColorFirst_Day</item>
+        <item name="textColorSecond">@color/textColorSecond_Day</item>
+        <item name="textColorThird">@color/textColorThird_Day</item>
+        <!--Actionbar-Menu-文字-->
+        <!--<item name="main_menu_changetheme">@string/main_menu_changetheme_day</item>-->
+    </style>
+
+    <!--夜晚主题-->
+    <style name="NightTheme" parent="AppTheme.NoActionBar">
+        <item name="myTheme">night</item>
+        <!--ActionBar背景  -->
+        <item name="colorPrimary">@color/topbar_Background_Night</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Night</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="toolbar_Menu_Text_Color">@color/toolbar_Menu_Text_Color_Night</item>
+        <item name="toolbar_Text_Color">@color/toolbar_Text_Color_Night</item>
+        <!--页面背景-->
+        <item name="android:windowBackground">@color/background_Night</item>
+        <!--主页item背景色-->
+        <item name="main_item_background">@color/main_item_background_Night</item>
+        <!--三种文字颜色-->
+        <item name="textColorFirst">@color/textColorFirst_Night</item>
+        <item name="textColorSecond">@color/textColorSecond_Night</item>
+        <item name="textColorThird">@color/textColorThird_Night</item>
+        <!--&lt;!&ndash;Actionbar-Menu-文字&ndash;&gt;-->
+        <!--<item name="main_menu_changetheme">@string/main_menu_changetheme_night</item>-->
+    </style>
+
+
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="CollapsingToolbarTitleStyle.About" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
 
 </resources>

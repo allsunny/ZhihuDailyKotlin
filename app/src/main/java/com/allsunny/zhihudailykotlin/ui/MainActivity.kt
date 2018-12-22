@@ -56,6 +56,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             startActivity(intent)
             drawer_layout.closeDrawer(GravityCompat.START)
         }
+
+        swr_refresh.setOnRefreshListener({
+            if (swr_refresh.isRefreshing) {
+                getLastNews()
+            }
+        })
     }
 
     override fun initData() {
@@ -68,14 +74,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     .load(item.images[0])
                     .error(R.mipmap.ic_launcher)           //设置错误图片
                     .placeholder(R.mipmap.ic_launcher)     //设置占位图片
-                    .dontAnimate()                           //解决Glide加载图片的变形问题
+//                    .dontAnimate()                           //解决Glide加载图片的变形问题
                     .diskCacheStrategy(DiskCacheStrategy.RESULT) //缓存
                     .into(helper.getView(R.id.iv_story))
 
                 helper.addOnClickListener(R.id.cv_item)
 
                 helper.setOnClickListener(R.id.cv_item, View.OnClickListener {
-                    ToastUtil.showToast(item!!.title)
+                    val intent = Intent(mContext, NewsDetailActivity::class.java)
+                    intent.putExtra("news_id",item.id)
+                    startActivity(intent)
+//                    ToastUtil.showToast(item!!.title)
                 })
 
             }
@@ -84,12 +93,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         rv_data.layoutManager = linearLayoutManager
         rv_data.adapter = newsListAdapter
 
+        getLastNews()
+    }
+
+    private fun getLastNews() {
         RetrofitManager.service.getNewsData()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ newsBean ->
                 newsListData = newsBean.stories
                 newsListAdapter!!.setNewData(newsListData)
+                if (swr_refresh.isRefreshing) {
+                    swr_refresh.setRefreshing(false)
+                }
             }, { throwable ->
                 Logger.e(throwable.toString())
             })
@@ -115,10 +131,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_change_style -> {
-                ToastUtil.showToast("Hello")
+                setTheme(R.style.NightTheme)
                 return true
             }
             R.id.action_settings -> return true
+            R.id.action_about->{
+                startActivity(Intent(this,AboutActivity::class.java))
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }

@@ -1,11 +1,14 @@
 package com.allsunny.zhihudailykotlin.http
 
+import com.allsunny.zhihudailykotlin.ZhihuDailyApplication
 import com.allsunny.zhihudailykotlin.api.ApiService
 import com.allsunny.zhihudailykotlin.api.UriConstant
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 
 /**
  * Author: allsunny
@@ -27,8 +30,15 @@ object RetrofitManager {
             synchronized(RetrofitManager::class.java) {
                 if (retrofit == null) {
 
+                    // 指定缓存路径,缓存大小100Mb
+                    val cache = Cache(
+                        File(ZhihuDailyApplication.context.getCacheDir(), "HttpCache"),
+                        (1024 * 1024 * 100).toLong()
+                    )
+
                     client = OkHttpClient.Builder()
-//                        .addInterceptor()
+                        .cache(cache)
+                        .addInterceptor(CustomHttpLoggingInterceptor())
                         .build()
 
                     retrofit = Retrofit.Builder()

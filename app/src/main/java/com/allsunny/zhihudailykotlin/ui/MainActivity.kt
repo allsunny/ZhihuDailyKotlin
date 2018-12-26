@@ -107,8 +107,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         rv_data.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val totalItemCount = linearLayoutManager.getItemCount()
-                val lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
-                if (lastVisibleItem > totalItemCount - 3 && dy > 0) {
+                val lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition()
+                if (lastVisibleItem == totalItemCount - 1 && dy > 0) {
                     getBeforeNews(currentDate)
                 }
 

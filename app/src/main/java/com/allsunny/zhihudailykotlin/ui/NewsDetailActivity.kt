@@ -54,8 +54,8 @@ class NewsDetailActivity : BaseActivity() {
 
                 Glide.with(this)
                     .load(newsDetailBean.image)
-                    .error(R.mipmap.ic_launcher)           //设置错误图片
-                    .placeholder(R.mipmap.ic_launcher)     //设置占位图片
+                    .error(R.mipmap.image_small_default)           //设置错误图片
+                    .placeholder(R.mipmap.image_small_default)     //设置占位图片
                     .diskCacheStrategy(DiskCacheStrategy.RESULT) //缓存
                     .into(mIvHeader)
                 tv_title.setText(newsDetailBean.title)

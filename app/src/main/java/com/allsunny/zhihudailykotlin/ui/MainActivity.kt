@@ -62,11 +62,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
 
         swr_refresh.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
-        swr_refresh.setOnRefreshListener({
+        swr_refresh.setOnRefreshListener {
             if (swr_refresh.isRefreshing) {
                 getLastNews()
             }
-        })
+        }
     }
 
     override fun initData() {
@@ -188,18 +188,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
+            R.id.nav_home -> {
+                getLastNews()
             }
-            R.id.nav_gallery -> {
+            R.id.nav_blind_talk -> {
 
             }
-            R.id.nav_slideshow -> {
+            R.id.nav_big_mistake -> {
 
             }
-            R.id.nav_manage -> {
+            R.id.nav_little_thing -> {
 
             }
+
             R.id.nav_share -> {
 
             }

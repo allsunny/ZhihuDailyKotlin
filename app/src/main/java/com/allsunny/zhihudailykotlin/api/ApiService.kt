@@ -27,4 +27,17 @@ interface ApiService {
     @GET("news/{id}")
     fun getNewsDetail(@Path("id") id: Int): Observable<NewsDetailBean>
 
+    @GET("section/2")
+    fun getBlindTalkNews(): Observable<NewsBean>
+
+    @GET("section/2/{timestamp}")
+    fun getBlindTalkBeforeNews(@Path("timestamp") timestamp: Int): Observable<NewsBean>
+
+    @GET("section/29")
+    fun getBigMistakeNews(): Observable<NewsBean>
+
+    @GET("section/35")
+    fun getLittleThingNews(): Observable<NewsBean>
+
+
 }

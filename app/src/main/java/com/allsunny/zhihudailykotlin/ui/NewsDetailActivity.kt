@@ -31,7 +31,7 @@ class NewsDetailActivity : BaseActivity() {
     }
 
     override fun initView() {
-        mIvHeader = findViewById(R.id.iv_header) as ImageView
+        mIvHeader = findViewById<ImageView>(R.id.iv_header)
         wv_news.settings.javaScriptEnabled = true
 
         setSupportActionBar(toolbar)
@@ -42,7 +42,7 @@ class NewsDetailActivity : BaseActivity() {
     }
 
     override fun initData() {
-        val newsID = intent.getIntExtra("news_id", 9022909);
+        val newsID = intent.getIntExtra("news_id", 9022909)
         getNewsDetail(newsID)
     }
 
@@ -58,10 +58,10 @@ class NewsDetailActivity : BaseActivity() {
                     .placeholder(R.mipmap.image_small_default)     //设置占位图片
                     .diskCacheStrategy(DiskCacheStrategy.RESULT) //缓存
                     .into(mIvHeader)
-                tv_title.setText(newsDetailBean.title)
-                tv_source.setText(newsDetailBean.image_source)
+                tv_title.text = newsDetailBean.title
+                tv_source.text = newsDetailBean.image_source
 
-                val mNewsBody = STORY_FORMAT + newsDetailBean.body + "</body></html>";
+                val mNewsBody = STORY_FORMAT + newsDetailBean.body + "</body></html>"
                 wv_news.loadDataWithBaseURL("file:///android_asset/", mNewsBody, "text/html", "UTF-8", null)
             }, { throwable ->
                 Logger.e(throwable.toString())

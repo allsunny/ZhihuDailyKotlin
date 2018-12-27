@@ -61,6 +61,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             drawer_layout.closeDrawer(GravityCompat.START)
         }
 
+        swr_refresh.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
         swr_refresh.setOnRefreshListener({
             if (swr_refresh.isRefreshing) {
                 getLastNews()
@@ -106,7 +107,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
          */
         rv_data.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val totalItemCount = linearLayoutManager.getItemCount()
+                val totalItemCount = linearLayoutManager.itemCount
                 val lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition()
                 if (lastVisibleItem == totalItemCount - 1 && dy > 0) {
                     getBeforeNews(currentDate)
@@ -130,11 +131,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     getBeforeNews(currentDate)
                 }
                 if (swr_refresh.isRefreshing) {
-                    swr_refresh.setRefreshing(false)
+                    swr_refresh.isRefreshing = false
                 }
             }, { throwable: Throwable? ->
                 if (swr_refresh.isRefreshing) {
-                    swr_refresh.setRefreshing(false)
+                    swr_refresh.isRefreshing = false
                 }
                 Logger.e(throwable.toString())
             })

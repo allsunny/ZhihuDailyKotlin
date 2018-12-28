@@ -6,34 +6,21 @@
     <group android:checkableBehavior="single">
         <item
                 android:id="@+id/nav_home"
-                android:icon="@mipmap/menu_home"
+                android:icon="@mipmap/ic_home"
                 android:checked="true"
                 android:title="首页"/>
         <item
                 android:id="@+id/nav_blind_talk"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@mipmap/ic_blind_talk"
                 android:title="瞎扯"/>
         <item
                 android:id="@+id/nav_big_mistake"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@mipmap/ic_mis"
                 android:title="大误"/>
         <item
                 android:id="@+id/nav_little_thing"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@mipmap/ic_little_thing"
                 android:title="小事"/>
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="Share"/>
-            <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="Send"/>
-        </menu>
-    </item>
 
 </menu>

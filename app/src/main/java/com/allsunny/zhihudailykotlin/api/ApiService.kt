@@ -1,5 +1,6 @@
 package com.allsunny.zhihudailykotlin.api
 
+import com.allsunny.zhihudailykotlin.bean.SectionNewsBean
 import com.allsunny.zhihudailykotlin.bean.NewsBean
 import com.allsunny.zhihudailykotlin.bean.NewsDetailBean
 import io.reactivex.Observable
@@ -27,17 +28,23 @@ interface ApiService {
     @GET("news/{id}")
     fun getNewsDetail(@Path("id") id: Int): Observable<NewsDetailBean>
 
-    @GET("section/2")
-    fun getBlindTalkNews(): Observable<NewsBean>
+//    @GET("section/2")
+//    fun getBlindTalkNews(): Observable<SectionNewsBean>
 
-    @GET("section/2/{timestamp}")
-    fun getBlindTalkBeforeNews(@Path("timestamp") timestamp: Int): Observable<NewsBean>
+    @GET("section/{column}")
+    fun getSectionNews(@Path("column") column: Int): Observable<SectionNewsBean>
 
-    @GET("section/29")
-    fun getBigMistakeNews(): Observable<NewsBean>
+    @GET("section/{column}/before/{timestamp}")
+    fun getSectionBeforeNews(
+        @Path("column") column: Int,
+        @Path("timestamp") timestamp: String
+    ): Observable<SectionNewsBean>
 
-    @GET("section/35")
-    fun getLittleThingNews(): Observable<NewsBean>
+//    @GET("section/29")
+//    fun getBigMistakeNews(): Observable<NewsBean>
+//
+//    @GET("section/35")
+//    fun getLittleThingNews(): Observable<NewsBean>
 
 
 }

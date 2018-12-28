@@ -7,13 +7,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.*
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.allsunny.zhihudailykotlin.R
 import com.allsunny.zhihudailykotlin.bean.Story
 import com.allsunny.zhihudailykotlin.http.RetrofitManager
-import com.allsunny.zhihudailykotlin.utils.ToastUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,8 +24,10 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.orhanobut.logger.Logger
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import android.widget.Toast
+import com.allsunny.zhihudailykotlin.api.UriConstant
+import com.allsunny.zhihudailykotlin.bean.SectionNewsBean
 import com.allsunny.zhihudailykotlin.bean.NewsBean
+import com.allsunny.zhihudailykotlin.utils.ToastUtil
 
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +35,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var newsListAdapter: BaseQuickAdapter<Story, BaseViewHolder>? = null
     private var newsListData: List<Story>? = null
     private lateinit var currentDate: String
+
+    private var column: Int = 0
 
     private val linearLayoutManager by lazy {
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -99,7 +103,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             }
         }
-
+        newsListAdapter!!.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM)
         rv_data.layoutManager = linearLayoutManager
         rv_data.adapter = newsListAdapter
         /**
@@ -110,7 +114,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 val totalItemCount = linearLayoutManager.itemCount
                 val lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition()
                 if (lastVisibleItem == totalItemCount - 1 && dy > 0) {
-                    getBeforeNews(currentDate)
+                    when {
+                        column == UriConstant.COLUMN_HOME ->
+                            getBeforeNews(currentDate)
+                        column == UriConstant.COLUMN_BLIND_TALK ->
+                            getSectionBeforeNews(currentDate)
+                        column == UriConstant.COLUMN_BIG_MISTAKE ->
+                            getSectionBeforeNews(currentDate)
+                        column == UriConstant.COLUMN_LITTLE_THING ->
+                            getSectionBeforeNews(currentDate)
+                    }
                 }
 
             }
@@ -189,27 +202,85 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
+                column = UriConstant.COLUMN_HOME
                 getLastNews()
+                swr_refresh.isEnabled = true
+                toolbar.title = "首页"
             }
             R.id.nav_blind_talk -> {
+                column = UriConstant.COLUMN_BLIND_TALK
+                getSectionNews()
+                swr_refresh.isEnabled = false
+                toolbar.title = "瞎扯"
 
             }
             R.id.nav_big_mistake -> {
+                column = UriConstant.COLUMN_BIG_MISTAKE
+                getSectionNews()
+                swr_refresh.isEnabled = false
+                toolbar.title = "大误"
 
             }
             R.id.nav_little_thing -> {
-
-            }
-
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
+                column = UriConstant.COLUMN_LITTLE_THING
+                getSectionNews()
+                swr_refresh.isEnabled = false
+                toolbar.title = "小事"
 
             }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun getSectionNews() {
+        RetrofitManager.service.getSectionNews(column)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ bean: SectionNewsBean? ->
+                newsListData = bean?.stories
+                newsListAdapter?.setNewData(newsListData)
+                currentDate = bean!!.timestamp
+                if (newsListData!!.size < 8) {
+                    getSectionBeforeNews(currentDate)
+                }
+                if (swr_refresh.isRefreshing) {
+                    swr_refresh.isRefreshing = false
+                }
+            }, { throwable: Throwable? ->
+                if (swr_refresh.isRefreshing) {
+                    swr_refresh.isRefreshing = false
+                }
+                Logger.e(throwable.toString())
+            })
+    }
+
+    private fun getSectionBeforeNews(timestamp: String) {
+        RetrofitManager.service.getSectionBeforeNews(column, timestamp)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { newsBean: SectionNewsBean? ->
+                    newsListAdapter?.addData(newsBean!!.stories)
+                    currentDate = newsBean!!.timestamp
+                }, { throwable: Throwable? ->
+                    Logger.e(throwable.toString())
+                })
+    }
+
+    private var firstTime: Long = 0L
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event!!.action == KeyEvent.ACTION_DOWN) {
+            if (System.currentTimeMillis() - firstTime > 2000) {
+                ToastUtil.showToast("再按一次退出")
+                firstTime = System.currentTimeMillis()
+            } else {
+                finish()
+                System.exit(0)
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

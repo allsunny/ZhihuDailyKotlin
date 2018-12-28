@@ -28,9 +28,6 @@ interface ApiService {
     @GET("news/{id}")
     fun getNewsDetail(@Path("id") id: Int): Observable<NewsDetailBean>
 
-//    @GET("section/2")
-//    fun getBlindTalkNews(): Observable<SectionNewsBean>
-
     @GET("section/{column}")
     fun getSectionNews(@Path("column") column: Int): Observable<SectionNewsBean>
 
@@ -39,12 +36,4 @@ interface ApiService {
         @Path("column") column: Int,
         @Path("timestamp") timestamp: String
     ): Observable<SectionNewsBean>
-
-//    @GET("section/29")
-//    fun getBigMistakeNews(): Observable<NewsBean>
-//
-//    @GET("section/35")
-//    fun getLittleThingNews(): Observable<NewsBean>
-
-
 }

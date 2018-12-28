@@ -14,12 +14,22 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file('E:/zhihudaily.jks')
+            keyAlias 'daily'
+            keyPassword '000000'
+            storePassword '000000'
+        }
+    }
+
     buildTypes {
         debug {
-//            minifyEnabled false
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -27,6 +37,7 @@ android {
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

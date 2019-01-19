@@ -14,13 +14,13 @@
     app:cardBackgroundColor="#ffffff"
     app:cardCornerRadius="4dp"
     app:cardElevation="1dp">
-
+    
     <RelativeLayout
         android:id="@+id/rl_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-
+        
         <ImageView
             android:id="@+id/iv_story"
             android:layout_width="80dp"
@@ -28,7 +28,7 @@
             android:layout_alignParentLeft="true"
             android:scaleType="fitCenter"
             android:src="@mipmap/download" />
-
+        
         <ImageView
             android:id="@+id/iv_multi_pic"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_alignBottom="@id/iv_story"
             android:src="@mipmap/multi_pic"
             android:visibility="invisible" />
-
+        
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"

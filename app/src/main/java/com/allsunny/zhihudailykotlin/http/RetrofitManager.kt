@@ -33,7 +33,7 @@ object RetrofitManager {
                     // 指定缓存路径,缓存大小100Mb
                     val cache = Cache(
                         File(ZhihuDailyApplication.context.cacheDir, "HttpCache"),
-                        (1024 * 1024 * 100).toLong()
+                        (1024 * 1024 * 1000).toLong()
                     )
 
                     client = OkHttpClient.Builder()

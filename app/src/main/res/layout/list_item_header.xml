@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingBottom="20.0dip"
+    android:paddingLeft="16.0dip"
+    android:paddingRight="16.0dip"
+    android:paddingTop="20.0dip">
+    
+    <TextView
+        android:id="@+id/tv_item_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="#ff999999"
+        android:textSize="14sp"
+        tool:text="今日新闻" />
+</RelativeLayout>

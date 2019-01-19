@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.allsunny.zhihudailykotlin.R
 import com.allsunny.zhihudailykotlin.bean.Story
 import com.allsunny.zhihudailykotlin.http.RetrofitManager
@@ -50,9 +51,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setSupportActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
+                this, drawer_layout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -80,12 +81,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 helper!!.setText(R.id.tv_title, item!!.title)
 
                 Glide.with(mContext)
-                    .load(item.images[0])
-                    .error(R.mipmap.image_small_default)           //设置错误图片
-                    .placeholder(R.mipmap.image_small_default)     //设置占位图片
+                        .load(item.images[0])
+                        .error(R.mipmap.image_small_default)           //设置错误图片
+                        .placeholder(R.mipmap.image_small_default)     //设置占位图片
 //                    .dontAnimate()                           //解决Glide加载图片的变形问题
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT) //缓存
-                    .into(helper.getView(R.id.iv_story))
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT) //缓存
+                        .into(helper.getView(R.id.iv_story))
 
                 helper.addOnClickListener(R.id.cv_item)
 
@@ -134,36 +135,36 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun getLastNews() {
         RetrofitManager.service.getNewsData()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ newsBean: NewsBean? ->
-                newsListData = newsBean?.stories
-                newsListAdapter?.setNewData(newsListData)
-                currentDate = newsBean?.date.toString()
-                if (newsListData!!.size < 8) {
-                    getBeforeNews(currentDate)
-                }
-                if (swr_refresh.isRefreshing) {
-                    swr_refresh.isRefreshing = false
-                }
-            }, { throwable: Throwable? ->
-                if (swr_refresh.isRefreshing) {
-                    swr_refresh.isRefreshing = false
-                }
-                Logger.e(throwable.toString())
-            })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ newsBean: NewsBean? ->
+                    newsListData = newsBean?.stories
+                    newsListAdapter?.setNewData(newsListData)
+                    currentDate = newsBean?.date.toString()
+                    if (newsListData!!.size < 8) {
+                        getBeforeNews(currentDate)
+                    }
+                    if (swr_refresh.isRefreshing) {
+                        swr_refresh.isRefreshing = false
+                    }
+                }, { throwable: Throwable? ->
+                    if (swr_refresh.isRefreshing) {
+                        swr_refresh.isRefreshing = false
+                    }
+                    Logger.e(throwable.toString())
+                })
     }
 
     private fun getBeforeNews(date: String) {
         RetrofitManager.service.getBeforeNews(date)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ newsBean: NewsBean? ->
-                newsListAdapter?.addData(newsBean!!.stories)
-                currentDate = newsBean?.date.toString()
-            }, { throwable: Throwable? ->
-                Logger.e(throwable.toString())
-            })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ newsBean: NewsBean? ->
+                    newsListAdapter?.addData(newsBean!!.stories)
+                    currentDate = newsBean?.date.toString()
+                }, { throwable: Throwable? ->
+                    Logger.e(throwable.toString())
+                })
     }
 
     override fun onBackPressed() {
@@ -236,35 +237,35 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun getSectionNews() {
         RetrofitManager.service.getSectionNews(column)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ bean: SectionNewsBean? ->
-                newsListData = bean?.stories
-                newsListAdapter?.setNewData(newsListData)
-                currentDate = bean!!.timestamp
-                if (newsListData!!.size < 8) {
-                    getSectionBeforeNews(currentDate)
-                }
-                if (swr_refresh.isRefreshing) {
-                    swr_refresh.isRefreshing = false
-                }
-            }, { throwable: Throwable? ->
-                if (swr_refresh.isRefreshing) {
-                    swr_refresh.isRefreshing = false
-                }
-                Logger.e(throwable.toString())
-            })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ bean: SectionNewsBean? ->
+                    newsListData = bean?.stories
+                    newsListAdapter?.setNewData(newsListData)
+                    currentDate = bean!!.timestamp
+                    if (newsListData!!.size < 8) {
+                        getSectionBeforeNews(currentDate)
+                    }
+                    if (swr_refresh.isRefreshing) {
+                        swr_refresh.isRefreshing = false
+                    }
+                }, { throwable: Throwable? ->
+                    if (swr_refresh.isRefreshing) {
+                        swr_refresh.isRefreshing = false
+                    }
+                    Logger.e(throwable.toString())
+                })
     }
 
     private fun getSectionBeforeNews(timestamp: String) {
         RetrofitManager.service.getSectionBeforeNews(column, timestamp)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { newsBean: SectionNewsBean? ->
-                    newsListAdapter?.addData(newsBean!!.stories)
-                    currentDate = newsBean!!.timestamp
-                }, { throwable: Throwable? ->
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { newsBean: SectionNewsBean? ->
+                            newsListAdapter?.addData(newsBean!!.stories)
+                            currentDate = newsBean!!.timestamp
+                        }, { throwable: Throwable? ->
                     Logger.e(throwable.toString())
                 })
     }

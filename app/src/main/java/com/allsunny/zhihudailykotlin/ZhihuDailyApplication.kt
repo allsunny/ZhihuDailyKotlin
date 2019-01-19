@@ -2,6 +2,7 @@ package com.allsunny.zhihudailykotlin
 
 import android.app.Application
 import android.content.Context
+import com.mob.MobSDK
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
@@ -36,6 +37,7 @@ class ZhihuDailyApplication : Application() {
         super.onCreate()
         context = applicationContext
         refWatcher = setupLeakCanary()
+        MobSDK.init(this)
         initConfig()
     }
 

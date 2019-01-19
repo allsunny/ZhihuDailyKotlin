@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.mob.sdk'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -42,6 +44,36 @@ android {
         }
     }
 }
+
+MobSDK {
+    appKey "29d7f467e0194"
+    appSecret "84fd51b0c36971a389efd47e11b81b74"
+    ShareSDK {
+        devInfo {
+            Wechat {
+                appId "wx9ffb0a07d1073ef0"
+                appSecret "84fd51b0c36971a389efd47e11b81b74"
+                userName "gh_afb25ac019c9"
+                path "pages/index/index.html?id=1"
+                withShareTicket true
+                miniprogramType 2
+            }
+            QQ {
+                appId "100371282"
+                appKey "aed9b0303e3ed1e27bae87c33761161d"
+            }
+            WechatMoments {
+                appId "wx9ffb0a07d1073ef0"
+                appSecret "84fd51b0c36971a389efd47e11b81b74"
+            }
+            WechatFavorite {
+                appId "wx9ffb0a07d1073ef0"
+                appSecret "84fd51b0c36971a389efd47e11b81b74"
+            }
+        }
+    }
+}
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

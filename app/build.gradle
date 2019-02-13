@@ -101,4 +101,6 @@ dependencies {
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
 }

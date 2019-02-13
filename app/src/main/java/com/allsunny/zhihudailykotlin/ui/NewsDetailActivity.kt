@@ -1,5 +1,7 @@
 package com.allsunny.zhihudailykotlin.ui
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import com.mob.wrappers.ShareSDKWrapper.share
 import cn.sharesdk.onekeyshare.OnekeyShare
-
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity
 
 
 /**
@@ -28,26 +30,34 @@ import cn.sharesdk.onekeyshare.OnekeyShare
  * Desc:
  */
 
-class NewsDetailActivity : BaseActivity() {
+class NewsDetailActivity : SwipeBackActivity() {
 
     private lateinit var mIvHeader:ImageView
 
-    override fun layoutId(): Int {
-        return R.layout.activity_news_detail
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_news_detail)
+        initView()
+        initData()
     }
 
-    override fun initView() {
-        mIvHeader = findViewById<ImageView>(R.id.iv_header)
+//    override fun layoutId(): Int {
+//        return R.layout.activity_news_detail
+//    }
+
+    fun initView() {
+        mIvHeader = findViewById(R.id.iv_header) as ImageView
         wv_news.settings.javaScriptEnabled = true
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 //        supportActionBar?.setDisplayShowTitleEnabled(false)
         toolbar.setNavigationOnClickListener { finish() }
-        collapsingToolbarLayout.title = "知乎Daily"
+        collapsingToolbarLayout.title = "小文"
     }
 
-    override fun initData() {
+    fun initData() {
         val newsID = intent.getIntExtra("news_id", 9022909)
         getNewsDetail(newsID)
     }
@@ -90,7 +100,7 @@ class NewsDetailActivity : BaseActivity() {
                 wv_news.loadDataWithBaseURL("file:///android_asset/", mNewsBody, "text/html", "UTF-8", null)
 
                 shareTitle = newsDetailBean.title
-                shareText = shareTitle +"(分享自@纯净小文App)"
+                shareText = shareTitle +"(分享自@小文App)"
                 shareImageUrl = newsDetailBean.image
                 shareUrl = newsDetailBean.share_url
             }, { throwable ->
